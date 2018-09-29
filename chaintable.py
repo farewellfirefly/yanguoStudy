@@ -1,0 +1,171 @@
+class Node():
+	'''
+	data:节点保存的数据
+	_next:保存下一个节点对象
+	'''
+	def __init__(self,data,pnext=None):
+		self.data = data
+		self._next = pnext
+	
+	def __repr__(self):
+		'''
+		用来定义Node的字符输出，
+		print为输出data
+		'''
+		return str(self.data)
+	
+class ChainTable():
+	def __init__(self):
+		self.head = None
+		self.length = 0
+		
+	def isEmpty(self):
+		return(self.length == 0)
+		
+	def append(self,dataOrNode):
+		item = None
+		#判断是链表还是数据，是链表就直接接上，是数据就接入节点
+		if isinstance(dataOrNode,Node):
+			item = dataOrNode
+		else:
+			item = Node(dataOrNode)
+		#判断有没有头节点，没有就填充，有就接上	
+		if not self.head:
+			self.head = item
+			self.length += 1
+		else:
+			node = self.head
+			#到末尾去接
+			while node._next:
+				node = node._next
+			#接上一个节点
+			node._next = item
+			self.length += 1
+		
+	def delete(self,index):
+		if self.isEmpty():
+			print("this chain table is empty.")
+			return
+		
+		if index < 0 or index >= self.length:
+			print("error:out of index")
+			return
+		
+		if index == 0:
+			self.head = self.head._next
+			self.length -= 1
+			return
+			
+		#prev为保存前导节点
+		#node为保存当前节点
+		#当j与index相等时就相当于找到要删除的节点
+		j = 0
+		node = self.head
+		prev = self.head
+		while node._next and j < index:
+			prev = node
+			node = node._next
+			j += 1		
+		if j == index:
+			prev._next = node._next
+			self.length -= 1
+	
+	#修改一个节点
+	def update(self,index,data):
+		if self.isEmpty() or index < 0 or index >= self.length:
+			print("error: out of index")
+			return	
+		j = 0
+		node = self.head
+		while node._next and j < index:
+			node = node._next
+			j += 1
+		
+		if j == index:
+			node.data = data
+	
+	#查找一个节点
+	def getItem(self,index):
+		if self.isEmpty() or index < 0 or index >= self.length:
+			print("error: out of index")
+			return
+		
+		j = 0
+		node = self.head
+		while node._next and j < index:
+			node = node._next
+			j += 1
+		
+		if j == index:
+			return node.data
+			
+	#查找一个节点的索引
+	def getIndex(self,data):
+		j = 0
+		if self.isEmpty():
+			print("this chain table is empty")
+			return
+		node = self.head
+		while node:
+			if node.data == data:
+				return j
+			node = node._next
+			j += 1
+			
+		if j == self.length:
+			print (data + " is not found")
+			return
+	
+    #插入一个节点：
+	def insert(self,index,dataOrNode):
+		if self.isEmpty() or index < 0 or index >= self.length:
+			print("error: out of index")
+			return
+			
+		item = None
+		if isinstance(dataOrNode,Node):
+			item = dataOrNode
+		else:
+			item =Node(dataOrNode)
+			
+		if index == 0:
+			item._next = self.head
+			self.head = item
+			self.length += 1
+			return
+			
+		j = 0
+		node = self.head
+		prev = self.head
+		while node._next and j < index:
+			prev = node
+			node = node._next
+			j += 1
+		if j == index:
+			item._next = node
+			prev._next = item			
+			self.length += 1
+	
+	#清空链表
+	def clear():
+		self.head = None
+		self.length = 0
+		
+	def show(self):
+		node =self.head
+		while node:
+			print(node.data,'',end='')
+			node = node._next
+		#print(node.data,end='')
+		print()
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+	
