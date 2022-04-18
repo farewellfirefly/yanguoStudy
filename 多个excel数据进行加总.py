@@ -21,7 +21,9 @@ def readname():
     #自动获取表格活动区域行列数
     file=os.path.join(filePath,names[0])
     df = pd.read_excel(file,header=None,keep_default_na=False)
+    #行数
     m = df.shape[0]
+    #列数
     n = df.shape[1]
     
     print(m,n)
